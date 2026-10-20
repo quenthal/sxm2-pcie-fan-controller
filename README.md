@@ -46,6 +46,8 @@ See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the full control pipeline.
 
 ## Reference wiring
 
+![Reference wiring for the SXM2-to-PCIe adapter blower controller](docs/wiring-simple.png)
+
 The normal wiring uses one NPN transistor for PWM:
 
 ```text
