@@ -1,0 +1,22 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+
+*.log
+*.zip
+*.bak
+*.bak-*
+*~
+
+.venv/
+venv/
+
+# Machine-local overrides; keep config/config.ini tracked as the portable example.
+config.local.ini
+*.local.ini
+
+.DS_Store
+.idea/
+.vscode/

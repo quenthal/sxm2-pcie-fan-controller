@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900">
+  <style>
+    .title{font:700 30px sans-serif}.h{font:700 22px sans-serif}.t{font:18px monospace}.s{font:17px sans-serif}.small{font:15px sans-serif}.box{fill:white;stroke:black;stroke-width:2}.wire{fill:none;stroke:black;stroke-width:3}.thin{fill:none;stroke:black;stroke-width:2}.dash{fill:none;stroke:black;stroke-width:2;stroke-dasharray:9 7}.warn{font:700 17px sans-serif}.node{fill:black}.net{font:700 16px monospace}
+  </style>
+  <rect x="0" y="0" width="1400" height="900" fill="white"/>
+  <text x="45" y="50" class="title">SXM2 PCIe adapter blower + ESP8266 - reference wiring (v0.11.0)</text>
+  <text x="45" y="82" class="s">Q1 = PWM open-collector. TACH: 10k pull-up FAN TACH -solmussa, sitten 2.2k sarjaan GPIO4:lle.</text>
+
+  <!-- Adapter and blower -->
+  <rect x="55" y="120" width="310" height="285" rx="12" class="box"/>
+  <text x="82" y="158" class="h">OCuLink / PCIe adapteri</text>
+  <text x="82" y="215" class="t">fan +12V</text>
+  <text x="82" y="270" class="t">fan GND</text>
+  <text x="82" y="325" class="t">fan PWM  X</text>
+  <text x="82" y="380" class="t">fan TACH X</text>
+
+  <rect x="1050" y="120" width="295" height="285" rx="12" class="box"/>
+  <text x="1110" y="158" class="h">adapter blower</text>
+  <text x="1080" y="215" class="t">+12V</text>
+  <text x="1080" y="270" class="t">GND</text>
+  <text x="1080" y="325" class="t">PWM</text>
+  <text x="1080" y="380" class="t">TACH</text>
+
+  <!-- Power pass-through -->
+  <path d="M250 210 L1080 210" class="wire"/>
+  <text x="610" y="198" class="s">+12 V suoraan läpi</text>
+  <path d="M250 265 L1080 265" class="wire"/>
+  <text x="610" y="253" class="s">GND suoraan läpi</text>
+  <path d="M250 320 L430 320" class="dash"/>
+  <text x="445" y="326" class="s">adapterin PWM ei jatka blowerille</text>
+  <path d="M250 375 L430 375" class="dash"/>
+  <text x="445" y="381" class="s">adapterin TACH-input ei kytkeydy</text>
+
+  <!-- Blower-side TACH network: placed below the upper boxes for readability -->
+  <path d="M1080 375 L990 375 L990 445 L900 445" class="wire"/>
+  <circle cx="900" cy="445" r="5" class="node"/>
+  <text x="760" y="430" class="s">FAN TACH -solmu</text>
+
+  <!-- TACH pull-up at FAN-side node; power net is named instead of routed across blocks -->
+  <path d="M900 445 L900 485" class="thin"/>
+  <rect x="870" y="485" width="60" height="70" class="box"/>
+  <text x="884" y="516" class="s">10k</text>
+  <text x="878" y="540" class="small">pull-up</text>
+  <path d="M900 555 L900 570" class="thin"/>
+  <text x="920" y="576" class="net">ESP_3V3</text>
+
+  <!-- TACH series resistor to named GPIO net -->
+  <path d="M900 445 L760 445" class="wire"/>
+  <rect x="650" y="429" width="110" height="32" class="box"/>
+  <text x="675" y="452" class="s">2.2k</text>
+  <path d="M650 445 L560 445" class="wire"/>
+  <text x="430" y="451" class="net">TACH_GPIO4</text>
+  <text x="640" y="488" class="small">sarjavastus GPIO4:lle</text>
+
+  <!-- PWM net on blower side -->
+  <path d="M1080 320 L955 320" class="wire"/>
+  <text x="840" y="326" class="net">FAN_PWM</text>
+
+  <!-- ESP block -->
+  <rect x="55" y="525" width="350" height="260" rx="12" class="box"/>
+  <text x="82" y="565" class="h">ESP8266</text>
+  <text x="82" y="620" class="t">D1 / GPIO5</text>
+  <text x="82" y="675" class="t">D2 / GPIO4</text>
+  <text x="82" y="730" class="t">3V3</text>
+  <text x="82" y="770" class="t">GND</text>
+  <path d="M275 615 L405 615" class="thin"/>
+  <path d="M275 670 L405 670" class="thin"/>
+  <path d="M275 725 L405 725" class="thin"/>
+  <path d="M275 765 L405 765" class="thin"/>
+  <text x="420" y="676" class="net">TACH_GPIO4</text>
+  <text x="420" y="731" class="net">ESP_3V3</text>
+  <text x="420" y="771" class="net">COMMON_GND</text>
+
+  <!-- Q1 block -->
+  <rect x="615" y="600" width="300" height="180" rx="12" class="box"/>
+  <text x="715" y="635" class="h">Q1 PWM</text>
+  <text x="690" y="667" class="t">BC337 NPN</text>
+  <text x="645" y="698" class="s">B &lt;- 2.2k &lt;- GPIO5</text>
+  <text x="645" y="727" class="s">B - 100k - COMMON_GND</text>
+  <text x="645" y="752" class="s">E - COMMON_GND</text>
+  <text x="645" y="774" class="s">C - FAN_PWM</text>
+
+  <!-- D1 to Q1: only real lower signal wire -->
+  <path d="M405 615 L515 615 L615 690" class="wire"/>
+  <text x="450" y="602" class="s">2.2k</text>
+
+  <!-- Explanatory net legend -->
+  <rect x="1010" y="555" width="335" height="205" rx="12" class="box"/>
+  <text x="1040" y="592" class="h">Net-nimet</text>
+  <text x="1040" y="630" class="net">FAN_PWM</text><text x="1155" y="630" class="s">Q1 C -> blower PWM</text>
+  <text x="1040" y="665" class="net">TACH_GPIO4</text><text x="1190" y="665" class="s">2.2k -> D2</text>
+  <text x="1040" y="700" class="net">ESP_3V3</text><text x="1155" y="700" class="s">ESP 3V3</text>
+  <text x="1040" y="735" class="net">COMMON_GND</text><text x="1190" y="735" class="s">ESP/Q1/adapter GND</text>
+
+  <!-- Measurement instructions -->
+  <text x="55" y="825" class="warn">ENNEN GPIO4-KYTKENTÄÄ:</text>
+  <text x="55" y="852" class="s">A) GPIO4 ja 10k irti: mittaa raw FAN TACH -> GND.</text>
+  <text x="55" y="878" class="s">B) Lisää 10k FAN TACH -solmusta 3V3:een, GPIO4 yhä irti; mittaa solmu. Vasta turvallisen ~3.3 V high-tason jälkeen kytke 2.2k -> GPIO4.</text>
+</svg>

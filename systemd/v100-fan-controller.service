@@ -1,0 +1,17 @@
+[Unit]
+Description=SXM2 PCIe adapter blower controller
+After=multi-user.target
+# Keep retrying instead of leaving the unit permanently failed after a burst of
+# startup errors. The ESP/electrical design fails to full fan while host control
+# is unavailable.
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+ExecStart=/opt/v100-fan-controller/venv/bin/python /opt/v100-fan-controller/v100_fan_daemon.py --config /etc/v100-fan-controller/config.ini
+Restart=always
+RestartSec=2
+TimeoutStopSec=5
+
+[Install]
+WantedBy=multi-user.target
